@@ -50,7 +50,7 @@ public class path_Drawing : MonoBehaviour
 
         if (isPathing)
         {
-            mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
+            mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 38.2f));
             float distance = Vector3.Distance(startPoint, mousePosition);
             pathObject.transform.localScale = new Vector3(0.5f, 0.1f, distance);
             pathObject.transform.LookAt(mousePosition);

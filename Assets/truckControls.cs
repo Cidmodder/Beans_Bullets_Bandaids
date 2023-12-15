@@ -7,8 +7,10 @@ public class truckControls : MonoBehaviour
 {
     public Vector3 waypoint;
     public Vector3 nextWaypoint;
-    public float speed = .5f;
-    public int supply = 0;
+    public float speed = 1f;
+    public int beans = 0;
+    public int bullets = 0;
+    public int bandaids = 0;
 
     
     
@@ -28,7 +30,23 @@ public class truckControls : MonoBehaviour
         if (other.gameObject.tag == "poi")
         {
             Debug.Log("add supplies");
-            other.GetComponent<poi_Controller>().addSupplies(supply);
+            
+            if (beans > 0)
+            {
+                other.GetComponent<poi_Controller>().addBeans(beans);
+            }
+            
+            if (bullets > 0)
+            {
+                other.GetComponent<poi_Controller>().addBullets(bullets);
+            }
+            
+            if (bandaids > 0)
+            {
+                other.GetComponent<poi_Controller>().addBandaids(bandaids);
+            }
+            
+
             Destroy(gameObject);
         }
     }
