@@ -13,3 +13,16 @@ You should be able to only start drawing a path when you highlight over a point 
 You can then draw a path to any location you would like and when you release the left mouse button it will either spawn an endpoint prefab, or snap to a point of interest and spawn the endpoint there.
 You can then draw a new path from any of these endpoints or points of interest as you go.
 These can then be sued to make paths to tell your logistics where to go in the game.
+
+# Design Idea
+The feeling I want players to have is a sense of puzzle solving and optimization when under pressure. 
+
+# Mechanics
+Path drawing - the main puzzle solving element. Paths are always a risk vs. reward as you navigate around enemies.
+Resource Management - Health (managed by bandaids), Ammo (managed by bullets), Morale (managed by beans). Player is deciding when and how to get supplies to troops.
+Choosing Specalized Unit Types - This allows the player to counter AI moves but may require a new route to be reoptimized as these units use more of certain supplies
+AI control of troops - the AI takes care of strategy, forcing the player to problem solve around decisions the AI is making.
+Points of Interest (POIs) - areas that can be captured and used either as a tap for resources or as an inventory for the AI to use.
+
+# Winning and Losing
+Once the player or the AI no longer have a tap for resources, the other player wins.
