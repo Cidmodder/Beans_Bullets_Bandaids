@@ -16,6 +16,8 @@ public class path_Drawing : MonoBehaviour
     public GameObject path;
     public GameObject endpointObject;
     private GameObject pathObject;
+    private GameObject start; //the thing you click on to start the path
+    private GameObject end; //the thing you end on
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,16 @@ public class path_Drawing : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0) && canPath)
         {
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                start = hit.transform.gameObject;               
+            }
+
+
             isPathing = true;
             pathObject = Instantiate(path, startPoint, Quaternion.identity);
             pathObject.transform.position = startPoint;
@@ -40,7 +52,7 @@ public class path_Drawing : MonoBehaviour
         {
             mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
             float distance = Vector3.Distance(startPoint, mousePosition);
-            pathObject.transform.localScale = new Vector3(1f, 1f, distance);
+            pathObject.transform.localScale = new Vector3(0.5f, 0.1f, distance);
             pathObject.transform.LookAt(mousePosition);
            
             
@@ -49,13 +61,15 @@ public class path_Drawing : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && isPathing)
         {
-            Instantiate(endpointObject, mousePosition, Quaternion.identity);
+            end = Instantiate(endpointObject, mousePosition, Quaternion.identity);
+            start.GetComponent<poi_Controller>().addDestination(end.transform.position);
             isPathing = false;
         }
 
         if (Input.GetMouseButtonUp(0) && isSnapping) 
         {
             Instantiate(endpointObject, mousePosition, Quaternion.identity);
+            start.GetComponent<poi_Controller>().addDestination(endPoint);
             isPathing = false;
             isSnapping = false;
         }
@@ -94,10 +108,15 @@ public class path_Drawing : MonoBehaviour
             isSnapping = false;
         }
         
-        if (isPathing)
+        else if (isPathing)
         {
             canPath = false;
             
+        }
+
+        else
+        {
+            canPath = false;
         }
     }
 }

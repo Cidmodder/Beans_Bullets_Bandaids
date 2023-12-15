@@ -21,7 +21,8 @@ public class point_Snapper : MonoBehaviour
 
         view.GetComponent<path_Drawing>().handleMouseEnter(transform.position);
         render.material.color = Color.green;
-        
+
+
     }
 
     private void OnMouseExit()
