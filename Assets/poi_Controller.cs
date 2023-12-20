@@ -139,7 +139,7 @@ public class poi_Controller : MonoBehaviour
     public void deleteChild()
     {
         Destroy(gameObject.transform.GetChild(0).gameObject);
-       // destinations.Clear();
+        destinations.Clear();
     }
 
     public void deleteNode()

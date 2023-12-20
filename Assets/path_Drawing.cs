@@ -81,14 +81,12 @@ public class path_Drawing : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
             if (Physics.Raycast(ray, out hit, 100))
             {
                 toDelete = hit.transform.gameObject;
 
                 if (toDelete.transform.tag == "endpoint") 
                 {
-                   // Debug.Log("delete me!");
                     toDelete.GetComponent<poi_Controller>().deleteNode();
                 }
             }
