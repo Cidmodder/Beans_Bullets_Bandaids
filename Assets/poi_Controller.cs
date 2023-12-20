@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -17,12 +18,13 @@ public class poi_Controller : MonoBehaviour
     public int bullets;
 
     public List<Vector3> destinations;
+    public List<Vector3> previous;
     public int connections;
     public int maxConnections;
     public int currentConnection = 0;
     public enum poi { factory, node, poi}; //types of points of interest (poi)
     public poi type;
-
+    private GameObject toDelete;
 
     // Start is called before the first frame update
     void Start()
@@ -108,6 +110,12 @@ public class poi_Controller : MonoBehaviour
 
     }
 
+    public void addPrevious(Vector3 last)
+    {
+        previous.Add(last);
+
+    }
+
     public Vector3 getDestination()
     {
         return destinations[0];
@@ -127,6 +135,54 @@ public class poi_Controller : MonoBehaviour
     {
         bandaids = bandaids + supply;
     }
+
+    public void deleteChild()
+    {
+        Destroy(gameObject.transform.GetChild(0).gameObject);
+       // destinations.Clear();
+    }
+
+    public void deleteNode()
+    {
+        Ray backwardRay = new Ray(transform.position, previous[0] - transform.position);
+        RaycastHit previousNode;
+
+
+        if (destinations.Count == 0) 
+        {
+           
+            if (Physics.Raycast(backwardRay, out previousNode, 100))
+            {
+                toDelete = previousNode.transform.gameObject;
+                toDelete.GetComponent<poi_Controller>().deleteChild();
+                Destroy(gameObject);
+            }
+        }
+
+        if (destinations.Count == 1)
+        {
+            if (Physics.Raycast(backwardRay, out previousNode, 100))
+            {
+                toDelete = previousNode.transform.gameObject;
+                toDelete.GetComponent<poi_Controller>().deleteChild();
+            }
+
+            Ray forwardRay = new Ray(transform.position, destinations[0] - transform.position);
+            RaycastHit nextNode;
+
+            if (Physics.Raycast(forwardRay, out nextNode, 100))
+            {
+                toDelete = nextNode.transform.gameObject;
+                toDelete.GetComponent<poi_Controller>().deleteNode();
+            }
+
+            Destroy(gameObject);
+
+
+        }
+
+    }
+
 
     // Update is called once per frame
     void Update()

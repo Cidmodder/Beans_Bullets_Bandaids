@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,6 +19,7 @@ public class path_Drawing : MonoBehaviour
     private GameObject pathObject;
     private GameObject start; //the thing you click on to start the path
     private GameObject end; //the thing you end on
+    private GameObject toDelete;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +47,7 @@ public class path_Drawing : MonoBehaviour
             isPathing = true;
             pathObject = Instantiate(path, startPoint, Quaternion.identity);
             pathObject.transform.position = startPoint;
-           
+            pathObject.transform.SetParent(start.transform);
         }
 
         if (isPathing)
@@ -63,6 +65,7 @@ public class path_Drawing : MonoBehaviour
         {
             end = Instantiate(endpointObject, mousePosition, Quaternion.identity);
             start.GetComponent<poi_Controller>().addDestination(end.transform.position);
+            end.GetComponent<poi_Controller>().addPrevious(start.transform.position);
             isPathing = false;
         }
 
@@ -72,6 +75,24 @@ public class path_Drawing : MonoBehaviour
             start.GetComponent<poi_Controller>().addDestination(endPoint);
             isPathing = false;
             isSnapping = false;
+        }
+
+        if (Input.GetMouseButtonDown(1) && canPath)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                toDelete = hit.transform.gameObject;
+
+                if (toDelete.transform.tag == "endpoint") 
+                {
+                   // Debug.Log("delete me!");
+                    toDelete.GetComponent<poi_Controller>().deleteNode();
+                }
+            }
+
         }
 
 
