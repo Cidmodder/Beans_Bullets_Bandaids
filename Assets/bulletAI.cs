@@ -17,6 +17,7 @@ public class bulletAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("I hit something");
         Destroy(gameObject);
     }
 
