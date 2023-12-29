@@ -31,6 +31,11 @@ public class commanderAI : MonoBehaviour
         
     }
 
+    public void setWave(int wave)
+    {
+        this.wave = wave;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -43,7 +48,7 @@ public class commanderAI : MonoBehaviour
             if (enemySpawnTime <= 0)
             {
                 int enemyIndex = Random.Range(0, 3);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 enemySpawnTime = 20;
 
                 GameObject enemy = Instantiate(enemyUnits[0], enemySpawnPoints[enemyIndex].transform.position, Quaternion.identity);
@@ -55,7 +60,7 @@ public class commanderAI : MonoBehaviour
             if (allySpawnTime <= 0)
             {
                 int allyIndex = Random.Range(0, 2);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 allySpawnTime = 25;
                 GameObject ally = Instantiate(allyUnits[0], allySpawnPoints[allyIndex].transform.position, Quaternion.identity);
                 allyUnits.Add(ally);
@@ -70,7 +75,7 @@ public class commanderAI : MonoBehaviour
             if (enemySpawnTime <= 0)
             {
                 int enemyIndex = Random.Range(0, 5);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 enemySpawnTime = 20;
                 GameObject enemy = Instantiate(enemyUnits[0], enemySpawnPoints[enemyIndex].transform.position, Quaternion.identity);
                 enemyUnits.Add(enemy);
@@ -81,7 +86,7 @@ public class commanderAI : MonoBehaviour
             if (allySpawnTime <= 0)
             {
                 int allyIndex = Random.Range(0, 2);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 allySpawnTime = 25;
                 GameObject ally = Instantiate(allyUnits[0], allySpawnPoints[allyIndex].transform.position, Quaternion.identity);
                 allyUnits.Add(ally);
@@ -99,7 +104,7 @@ public class commanderAI : MonoBehaviour
             {
 
                 int enemyIndex = Random.Range(0, 7);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 enemySpawnTime = 20;
                 GameObject enemy = Instantiate(enemyUnits[0], enemySpawnPoints[enemyIndex].transform.position, Quaternion.identity);
                 enemyUnits.Add(enemy);
@@ -110,7 +115,7 @@ public class commanderAI : MonoBehaviour
             if (allySpawnTime <= 0)
             {
                 int allyIndex = Random.Range(0, 2);
-                int objectiveIndex = Random.Range(0, 4);
+                int objectiveIndex = Random.Range(0, 3);
                 allySpawnTime = 25;
                 GameObject ally = Instantiate(allyUnits[0], allySpawnPoints[allyIndex].transform.position, Quaternion.identity);
                 allyUnits.Add(ally);
