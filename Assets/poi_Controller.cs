@@ -16,6 +16,7 @@ public class poi_Controller : MonoBehaviour
     public int beans; //amount currently stored
     public int bandaids;
     public int bullets;
+    public int control; //-100 for enemy +100 for ally
 
     public List<Vector3> destinations;
     public List<Vector3> previous;
@@ -24,6 +25,7 @@ public class poi_Controller : MonoBehaviour
     public int currentConnection = 0;
     public enum poi { factory, node, poi}; //types of points of interest (poi)
     public poi type;
+    public int poiID;
     private GameObject toDelete;
 
     // Start is called before the first frame update
@@ -136,9 +138,9 @@ public class poi_Controller : MonoBehaviour
         bandaids = bandaids + supply;
     }
 
-    public void deleteChild()
+    public void deleteChild(int id)
     {
-        Destroy(gameObject.transform.GetChild(0).gameObject);
+        Destroy(gameObject.transform.GetChild(id - 1).gameObject);
         destinations.Clear();
     }
 
@@ -154,7 +156,7 @@ public class poi_Controller : MonoBehaviour
             if (Physics.Raycast(backwardRay, out previousNode, 100))
             {
                 toDelete = previousNode.transform.gameObject;
-                toDelete.GetComponent<poi_Controller>().deleteChild();
+                toDelete.GetComponent<poi_Controller>().deleteChild(poiID);
                 Destroy(gameObject);
             }
         }
@@ -164,7 +166,7 @@ public class poi_Controller : MonoBehaviour
             if (Physics.Raycast(backwardRay, out previousNode, 100))
             {
                 toDelete = previousNode.transform.gameObject;
-                toDelete.GetComponent<poi_Controller>().deleteChild();
+                toDelete.GetComponent<poi_Controller>().deleteChild(poiID);
             }
 
             Ray forwardRay = new Ray(transform.position, destinations[0] - transform.position);
@@ -172,6 +174,11 @@ public class poi_Controller : MonoBehaviour
 
             if (Physics.Raycast(forwardRay, out nextNode, 100))
             {
+                if (nextNode.transform.tag == "poi")
+                {
+                    Destroy(gameObject);
+                }
+                
                 toDelete = nextNode.transform.gameObject;
                 toDelete.GetComponent<poi_Controller>().deleteNode();
             }
@@ -181,6 +188,30 @@ public class poi_Controller : MonoBehaviour
 
         }
 
+    }
+
+    public void setID(int id)
+    {
+        poiID = id;
+    }
+
+    //positive increment for ally negative for enemy
+    public void updateControl(int increment)
+    {
+        if (control < 100 && control > -100)
+        {
+            control += increment;
+        }
+
+        if (control < 0)
+        {
+            transform.GetComponent<Renderer>().material.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(control / 100f));
+        }
+
+        if (control > 0)
+        {
+            transform.GetComponent<Renderer>().material.color = Color.Lerp(Color.white, Color.blue, Mathf.Abs(control / 100f));
+        }
     }
 
 
